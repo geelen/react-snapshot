@@ -2,9 +2,35 @@
   "name": "react-snapshot",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "lib/index.js",
+  "bin": {
+    "react-snapshot": "./bin/react-snapshot.js"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "babel --out-dir lib src",
+    "build:watch": "npm run build -- --watch",
+    "prepublish": "rm -rf lib/* && npm run build"
+  },
+  "dependencies": {
+    "react": "^15.3.0",
+    "react-dom": "^15.3.0",
+    "jsdom": "^9.4.5",
+    "pushstate-server": "^1.12.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.13.2",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-preset-es2015": "^6.13.2",
+    "babel-preset-es2016": "^6.11.3"
+  },
+  "babel": {
+    "presets": [
+      "es2015",
+      "es2016"
+    ],
+    "plugins": [
+      "add-module-exports"
+    ]
   },
   "keywords": [],
   "author": "",
