@@ -28,17 +28,20 @@ export default class Crawler {
     }
     return snapshot(this.protocol, this.host, path).then(html => {
       this.handler({path, html})
-      this.extractNewLinks(html)
+      this.extractNewLinks(html, path)
       return this.snap()
     }, err => {
       console.log(err)
     })
   }
 
-  extractNewLinks(html) {
+  extractNewLinks(html, currentPath) {
     /* Obviously be better than this */
     html.replace(/<a[^>]+href=['"]([^'"]+)['"]/g, (link, href) => {
-      if (!this.processed[href]) this.paths.push(href)
+      const { protocol, host, path } = url.parse(href)
+      if (protocol || host) return
+      const relativePath = url.resolve(currentPath, path)
+      if (!this.processed[relativePath]) this.paths.push(relativePath)
     })
   }
 }
