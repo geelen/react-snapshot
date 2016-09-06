@@ -46,7 +46,7 @@ export default class Crawler {
 
     Object.keys(tagAttributeMap).forEach(tagName => {
       const urlAttribute = tagAttributeMap[tagName]
-      Array.from(document.querySelector(`${tagName}[${urlAttribute}]`)).forEach(element => {
+      Array.from(document.querySelectorAll(`${tagName}[${urlAttribute}]`)).forEach(element => {
         const { protocol, host, path } = url.parse(element[urlAttribute])
         if (protocol || host) return
         const relativePath = url.resolve(currentPath, path)
