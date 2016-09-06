@@ -39,6 +39,8 @@ This calls `ReactDOM.render` in development and `ReactDOMServer.renderToString` 
 
 Check out [react-snapshot-demo.surge.sh](https://react-snapshot-demo.surge.sh) for a live version or [geelen/create-react-app-snapshot](https://github.com/geelen/create-react-app-snapshot) for how it was built, starting from [create-react-app](https://github.com/facebookincubator/create-react-app)'s awesome baseline. No ejecting necessary, either.
 
+The [diff from the original create-react-app code](https://github.com/geelen/create-react-app-snapshot/compare/ab731022...master) might be enlightening to you as well.
+
 ## The Implementation
 
 It's pretty simple in principle:
