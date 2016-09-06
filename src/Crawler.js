@@ -5,6 +5,7 @@ import snapshot from './snapshot'
 
 export default class Crawler {
   constructor(baseUrl) {
+    this.baseUrl = baseUrl
     const { protocol, host, path } = url.parse(baseUrl)
     this.protocol = protocol
     this.host = host
@@ -14,11 +15,12 @@ export default class Crawler {
 
   crawl(handler) {
     this.handler = handler
+    console.log(`🕷   Starting crawling ${this.baseUrl}`)
     return this.snap()
+      .then(() => console.log(`🕸   Finished crawling.`))
   }
 
   snap() {
-    console.log(this.paths)
     let path = this.paths.shift()
     if (!path) return Promise.resolve()
     if (this.processed[path]) {

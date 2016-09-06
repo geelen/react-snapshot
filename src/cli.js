@@ -14,7 +14,7 @@ export default () => {
     const crawler = new Crawler("http://localhost:2999")
     return crawler.crawl(({ path, html }) => {
       const filename = `${path}${path.endsWith('/') ? 'index' : ''}.html`
-      console.log(`Saving ${path} as ${filename}`)
+      console.log(`✏️   Saving ${path} as ${filename}`)
       writer.write(filename, html)
     })
 

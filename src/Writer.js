@@ -17,9 +17,7 @@ export default class Writer {
   }
 
   write(filename, content) {
-    console.log(this.baseDir)
     const newPath = path.join(this.baseDir, filename)
-    console.log(newPath)
     fs.writeFileSync(newPath, content)
   }
 }
