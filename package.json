@@ -32,7 +32,13 @@
       "add-module-exports"
     ]
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "react",
+    "create-react-app",
+    "snapshot",
+    "static-site-generator",
+    "jsdom"
+  ],
+  "author": "Glen Maddern",
   "license": "ISC"
 }
