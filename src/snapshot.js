@@ -21,7 +21,7 @@ export default (protocol, host, path) => {
       virtualConsole: jsdom.createVirtualConsole().sendTo(console),
       done: (err, window) => {
         if (err) reject(err)
-        resolve(window.document.documentElement.outerHTML)
+        resolve(window)
       }
     })
   })

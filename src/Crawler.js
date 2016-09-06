@@ -28,22 +28,30 @@ export default class Crawler {
     } else {
       this.processed[path] = true
     }
-    return snapshot(this.protocol, this.host, path).then(html => {
-      this.handler({path, html})
-      this.extractNewLinks(html, path)
+    return snapshot(this.protocol, this.host, path).then(window => {
+      this.extractNewLinks(window, path)
+      this.handler({path, window.document.documentElement.outerHTML})
       return this.snap()
     }, err => {
       console.log(err)
     })
   }
 
-  extractNewLinks(html, currentPath) {
-    /* Obviously be better than this */
-    html.replace(/<a[^>]+href=['"]([^'"]+)['"]/g, (link, href) => {
-      const { protocol, host, path } = url.parse(href)
-      if (protocol || host) return
-      const relativePath = url.resolve(currentPath, path)
-      if (!this.processed[relativePath]) this.paths.push(relativePath)
+  extractNewLinks(window, currentPath) {
+    const document = window.document
+    const tagAttributeMap = {
+      'a': 'href',
+      'iframe': 'src'
+    }
+
+    Object.keys(tagAttributeMap).forEach(tagName => {
+      const urlAttribute = tagAttributeMap[tagName]
+      Array.from(document.querySelectorAll(`${tagName}[${urlAttribute}]`)).forEach(element => {
+        const { protocol, host, path } = url.parse(element[urlAttribute])
+        if (protocol || host) return
+        const relativePath = url.resolve(currentPath, path)
+        if (!this.processed[relativePath]) this.paths.push(relativePath)
+      })
     })
   }
 }
