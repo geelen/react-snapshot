@@ -2,6 +2,7 @@
   Emits a full page whenever a new link is found. */
 import url from 'url'
 import snapshot from './snapshot'
+import jsdom from 'jsdom'
 
 export default class Crawler {
   constructor(baseUrl) {
@@ -29,8 +30,9 @@ export default class Crawler {
       this.processed[path] = true
     }
     return snapshot(this.protocol, this.host, path).then(window => {
+      const html = jsdom.serializeDocument(window.document)
       this.extractNewLinks(window, path)
-      this.handler({path, window.document.documentElement.outerHTML})
+      this.handler({ path, html })
       return this.snap()
     }, err => {
       console.log(err)
