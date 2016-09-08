@@ -12,10 +12,11 @@
     "prepublish": "rm -rf lib/* && npm run build"
   },
   "dependencies": {
-    "react": "^15.3.0",
-    "react-dom": "^15.3.0",
     "jsdom": "^9.4.5",
-    "pushstate-server": "^1.12.0"
+    "mkdirp": "^0.5.1",
+    "pushstate-server": "^1.12.0",
+    "react": "^15.3.0",
+    "react-dom": "^15.3.0"
   },
   "devDependencies": {
     "babel-cli": "^6.14.0",
