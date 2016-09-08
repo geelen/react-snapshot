@@ -1,6 +1,7 @@
 /* Simple wrapper around fs so I can concentrate on what's going on */
 import fs from 'fs'
 import path from 'path'
+import { sync as mkDirPSync } from 'mkdirp'
 
 export default class Writer {
   constructor(baseDir) {
@@ -18,6 +19,8 @@ export default class Writer {
 
   write(filename, content) {
     const newPath = path.join(this.baseDir, filename)
+    const dirName = path.dirname(newPath)
+    mkDirPSync(dirName)
     fs.writeFileSync(newPath, content)
   }
 }
