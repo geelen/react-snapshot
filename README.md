@@ -65,7 +65,7 @@ This is a hacky experiment at the moment. I would really like to see how far we 
 - [ ] Should we exclude certain URLs? Maybe parse the `robots.txt` file?
 - [ ] What if you don't want the `200.html` pushstate fallback? What if you want to remove the bundle (effectively making this a static site generator)?
 - [ ] This doesn't pass down any state except what's contained in the markup. That feels ok for simple use-cases (you can always roll your own) but if you have a use-case where you need it and want zero-config raise an issue.
-- [x] [#2](pull/2) ~~I'm using a regexp to parse URLs out of the HTML because I wrote this on a flight with no wifi and couldn't NPM install anything. We should use a real parser. You should submit a PR to use a real parser. That would be real swell.~~
+- [x] #2 ~~I'm using a regexp to parse URLs out of the HTML because I wrote this on a flight with no wifi and couldn't NPM install anything. We should use a real parser. You should submit a PR to use a real parser. That would be real swell.~~
 - [ ] Should we clone the `build` directory to something like `snapshot` or `dist` instead of modifying it in-place?
 - [ ] There's virtually no error checking things so will just explode in interesting ways. So yeah that should be fixed.
 - [ ] Is JSDOM gonna hold us back at some point?
