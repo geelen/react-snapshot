@@ -42,5 +42,6 @@
     "jsdom"
   ],
   "author": "Glen Maddern",
-  "license": "ISC"
+  "license": "ISC",
+  "homepage": "https://github.com/geelen/react-snapshot"
 }
