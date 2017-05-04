@@ -6,6 +6,9 @@ export default class Server {
     const app = express()
 
     app.use(publicPath, express.static(baseDir, { index: '200.html' }))
+    app.use('/**', (req, res) => {
+      res.sendFile('200.html', {root: baseDir})
+    })
 
     this.start = this.start.bind(this, app, port)
   }
