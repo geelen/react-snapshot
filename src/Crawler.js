@@ -6,7 +6,8 @@ import jsdom from 'jsdom'
 import path from 'path'
 
 const pkg = require(path.join(process.cwd(), 'package.json'));
-const paths = pkg.reactSnapshot.paths
+const paths = pkg.reactSnapshot && pkg.reactSnapshot.paths || []
+const exclude = pkg.reactSnapshot && pkg.reactSnapshot.exclude || []
 
 export default class Crawler {
   constructor(baseUrl) {
@@ -57,7 +58,7 @@ export default class Crawler {
         const { protocol, host, path } = url.parse(element.getAttribute(urlAttribute))
         if (protocol || host || path===null) return;
         const relativePath = url.resolve(currentPath, path)
-        if (!this.processed[relativePath]) this.paths.push(relativePath)
+        if (!this.processed[relativePath] && exclude.indexOf(relativePath) < 0) this.paths.push(relativePath)
       })
     })
   }

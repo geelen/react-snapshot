@@ -35,6 +35,19 @@ The snapshots still have the normal JS bundle included, so once that downloads t
 
 This calls `ReactDOM.render` in development and `ReactDOMServer.renderToString` when prerendering. If I can make this invisible I will but I can't think how at the moment.
 
+## Options
+You can specify additional paths as entry points for crawling that would otherwise not be found. It's also possible to exclude particular paths from crawling. Simply add a section called `"reactSnapshot"` to your package.json
+```
+  "reactSnapshot": {
+    "paths": [
+      "/crawl_me_too"
+    ],
+    "exclude": [
+      "/crawl_me_too/but_exclude_me"
+    ]
+  }
+```
+
 ## The Demo
 
 Check out [create-react-app-snapshot.surge.sh](https://create-react-app-snapshot.surge.sh) for a live version or [geelen/create-react-app-snapshot](https://github.com/geelen/create-react-app-snapshot) for how it was built, starting from [create-react-app](https://github.com/facebookincubator/create-react-app)'s awesome baseline. No ejecting necessary, either.
