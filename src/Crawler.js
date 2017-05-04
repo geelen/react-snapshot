@@ -6,7 +6,7 @@ import jsdom from 'jsdom'
 import path from 'path'
 
 const pkg = require(path.join(process.cwd(), 'package.json'));
-const paths = pkg.reactSnapshot.paths
+const paths = pkg.reactSnapshot ? pkg.reactSnapshot.paths : ['/']
 
 export default class Crawler {
   constructor(baseUrl) {
@@ -14,7 +14,7 @@ export default class Crawler {
     const { protocol, host, path } = url.parse(baseUrl)
     this.protocol = protocol
     this.host = host
-    this.paths = [path,...paths]
+    this.paths = paths
     this.processed = {}
   }
 

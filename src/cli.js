@@ -13,7 +13,7 @@ export default () => {
   const writer = new Writer(baseDir)
   writer.move('index.html', '200.html')
 
-  const server = new Server(baseDir, publicPath, 2999)
+  const server = new Server(baseDir, publicPath, 2999, pkg.proxy)
   server.start().then(() => {
     const crawler = new Crawler(`http://localhost:2999${publicPath}`)
     return crawler.crawl(({ path, html }) => {
