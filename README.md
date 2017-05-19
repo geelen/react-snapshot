@@ -1,6 +1,6 @@
 # React Snapshot
 
-A zero-configuration static pre-renderer for React apps. Starting by targetting Create React App (because it's great)
+A zero-configuration static pre-renderer for React apps. Starting by targeting Create React App (because it's great)
 
 ## The Premise
 
@@ -35,6 +35,25 @@ The snapshots still have the normal JS bundle included, so once that downloads t
 
 This calls `ReactDOM.render` in development and `ReactDOMServer.renderToString` when prerendering. If I can make this invisible I will but I can't think how at the moment.
 
+## Options
+You can specify additional paths as entry points for crawling that would otherwise not be found. It's also possible to exclude particular paths from crawling. Simply add a section called `"reactSnapshot"` to your package.json.
+
+```
+  "reactSnapshot": {
+    "include": [
+      "/other-path",
+      "/another/nested-path"
+    ],
+    "exclude": [
+      "/signup",
+      "/other-path/exclude-me/**"
+    ]
+  }
+```
+
+Note that exclude can be passed a glob, but include cannot.
+
+
 ## The Demo
 
 Check out [create-react-app-snapshot.surge.sh](https://create-react-app-snapshot.surge.sh) for a live version or [geelen/create-react-app-snapshot](https://github.com/geelen/create-react-app-snapshot) for how it was built, starting from [create-react-app](https://github.com/facebookincubator/create-react-app)'s awesome baseline. No ejecting necessary, either.
@@ -60,9 +79,9 @@ There's a few more steps to it, but not much.
 
 This is a hacky experiment at the moment. I would really like to see how far we can take this approach so things "just work" without ever adding config. Off the top of my head:
 
-- [ ] Waiting on [pushstate-server#29](https://github.com/scottcorgan/pushstate-server/pull/29). Right now `pushstate-server` serves `200.html` _even if_ a HTML snapshot is present. So once you've run `react-snapshot`, you have to switch to `http-server` or `superstatic` to test if it worked. Or you could just push to [surge.sh](https://surge.sh) each time, which isn't too bad.
-- [ ] Is starting at `/` and crawling sufficient? Might there be unreachable sections of your site?
-- [ ] Should we exclude certain URLs? Maybe parse the `robots.txt` file?
+- [x] ~~Waiting on [pushstate-server#29](https://github.com/scottcorgan/pushstate-server/pull/29). Right now `pushstate-server` serves `200.html` _even if_ a HTML snapshot is present. So once you've run `react-snapshot`, you have to switch to `http-server` or `superstatic` to test if it worked. Or you could just push to [surge.sh](https://surge.sh) each time, which isn't too bad.~~
+- [x] ~~Is starting at `/` and crawling sufficient? Might there be unreachable sections of your site?~~
+- [x] ~~Should we exclude certain URLs? Maybe parse the `robots.txt` file?~~
 - [ ] What if you don't want the `200.html` pushstate fallback? What if you want to remove the bundle (effectively making this a static site generator)?
 - [ ] This doesn't pass down any state except what's contained in the markup. That feels ok for simple use-cases (you can always roll your own) but if you have a use-case where you need it and want zero-config raise an issue.
 - [x] #2 ~~I'm using a regexp to parse URLs out of the HTML because I wrote this on a flight with no wifi and couldn't NPM install anything. We should use a real parser. You should submit a PR to use a real parser. That would be real swell.~~

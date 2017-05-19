@@ -2,8 +2,9 @@
 
 import jsdom from 'jsdom'
 
-export default (protocol, host, path) => {
+export default (protocol, host, path, delay) => {
   return new Promise((resolve, reject) => {
+    let reactSnapshotRenderCalled = false
     jsdom.env({
       url: `${protocol}//${host}${path}`,
       headers: { Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8" },
@@ -20,14 +21,19 @@ export default (protocol, host, path) => {
         SkipExternalResources: false
       },
       virtualConsole: jsdom.createVirtualConsole().sendTo(console),
-      done: (err, window) => {
+      created: (err, window) => {
         if (err) reject(err)
-        //const check = () => {
-        //  setTimeout(check, 10)
-        //  console.log(process._getActiveHandles().length)
-        //}
-        //check()
-        setTimeout(() => resolve(window), 1000)
+        window.reactSnapshotRender = () => {
+          reactSnapshotRenderCalled = true
+          setTimeout(() => {
+            resolve(window)
+          }, delay)
+        }
+      },
+      done: (err, window) => {
+        if (!reactSnapshotRenderCalled) {
+          reject("'render' from react-snapshot was never called. Did you replace the call to ReactDOM.render()?")
+        }
       }
     })
   })

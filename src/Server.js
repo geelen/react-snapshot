@@ -1,19 +1,29 @@
 /* Spin up a simple express server */
 import express from 'express'
 import httpProxyMiddleware from 'http-proxy-middleware'
-import historyApiFallback from 'connect-history-api-fallback'
+import path from 'path'
 
 export default class Server {
   constructor(baseDir, publicPath, port, proxy) {
     const app = express()
 
-    // Yes I just copied most of this from react-scripts ¯\_(ツ)_/¯
-    app.use(historyApiFallback({
-      index: '/200.html',
-      disableDotRule: true,
-      htmlAcceptHeaders: proxy ? ['text/html'] : ['text/html', '*/*'],
-    }))
-    app.use(publicPath, express.static(baseDir, { index: '200.html' }))
+    app.get('*', (req, res, next) => {
+      // This makes sure the sockets close down so that
+      // we can gracefully shutdown the server
+      res.set('Connection', 'close');
+      next()
+    })
+
+    app.use(publicPath, express.static(baseDir))
+
+    // Serve 200.html instead of 404 for react routing
+    app.use(publicPath, (req, res, next) => {
+      if(proxy && !req.accepts('text/html')) {
+        next()
+      }
+      res.sendFile(path.join(baseDir, '200.html'))
+    })
+
     if (proxy) {
       app.use(httpProxyMiddleware({
         target: proxy,
@@ -40,9 +50,11 @@ export default class Server {
     })
   }
 
+  port() {
+    return this.instance.address().port
+  }
+
   stop() {
-    console.log("\nServer stopped.")
     this.instance.close()
-    process.exit() /* fkn dunno why this doesnt work eh */
   }
 }
