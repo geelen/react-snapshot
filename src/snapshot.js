@@ -6,6 +6,7 @@ export default (protocol, host, path) => {
   return new Promise((resolve, reject) => {
     jsdom.env({
       url: `${protocol}//${host}${path}`,
+      headers: { Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8" },
       resourceLoader(resource, callback) {
         if (resource.url.host === host) {
           resource.defaultFetch(callback);
@@ -21,7 +22,12 @@ export default (protocol, host, path) => {
       virtualConsole: jsdom.createVirtualConsole().sendTo(console),
       done: (err, window) => {
         if (err) reject(err)
-        resolve(window)
+        //const check = () => {
+        //  setTimeout(check, 10)
+        //  console.log(process._getActiveHandles().length)
+        //}
+        //check()
+        setTimeout(() => resolve(window), 1000)
       }
     })
   })

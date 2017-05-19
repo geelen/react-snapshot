@@ -1,12 +1,12 @@
 /* Loads a URL then starts looking for links.
-  Emits a full page whenever a new link is found. */
+ Emits a full page whenever a new link is found. */
 import url from 'url'
 import snapshot from './snapshot'
 import jsdom from 'jsdom'
 import path from 'path'
 
 const pkg = require(path.join(process.cwd(), 'package.json'));
-const paths = pkg.reactSnapshot.paths
+const paths = pkg.reactSnapshot ? pkg.reactSnapshot.paths : ['/']
 
 export default class Crawler {
   constructor(baseUrl) {
@@ -14,7 +14,7 @@ export default class Crawler {
     const { protocol, host, path } = url.parse(baseUrl)
     this.protocol = protocol
     this.host = host
-    this.paths = [path,...paths]
+    this.paths = paths
     this.processed = {}
   }
 
@@ -55,7 +55,7 @@ export default class Crawler {
       Array.from(document.querySelectorAll(`${tagName}[${urlAttribute}]`)).forEach(element => {
         if (element.getAttribute('target') === '_blank') return
         const { protocol, host, path } = url.parse(element.getAttribute(urlAttribute))
-        if (protocol || host || path===null) return;
+        if (protocol || host || path === null) return;
         const relativePath = url.resolve(currentPath, path)
         if (!this.processed[relativePath]) this.paths.push(relativePath)
       })
