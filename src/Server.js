@@ -1,7 +1,7 @@
 /* Spin up a simple express server */
 import express from 'express'
 import httpProxyMiddleware from 'http-proxy-middleware'
-import historyApiFallback from 'connect-history-api-fallback'
+import path from 'path'
 
 export default class Server {
   constructor(baseDir, publicPath, port, proxy) {
@@ -14,13 +14,16 @@ export default class Server {
       next()
     })
 
-    // Yes I just copied most of this from react-scripts ¯\_(ツ)_/¯
-    app.use(historyApiFallback({
-      index: '/200.html',
-      disableDotRule: true,
-      htmlAcceptHeaders: proxy ? ['text/html'] : ['text/html', '*/*'],
-    }))
-    app.use(publicPath, express.static(baseDir, { index: '200.html' }))
+    app.use(publicPath, express.static(baseDir))
+
+    // Serve 200.html instead of 404 for react routing
+    app.use(publicPath, (req, res, next) => {
+      if(proxy && !req.accepts('text/html')) {
+        next()
+      }
+      res.sendFile(path.join(baseDir, '200.html'))
+    })
+
     if (proxy) {
       app.use(httpProxyMiddleware({
         target: proxy,
