@@ -42,7 +42,7 @@ export default class Server {
 
   stop() {
     console.log("\nServer stopped.")
-    //this.instance.close()
-    //process.exit() /* fkn dunno why this doesnt work eh */
+    this.instance.close()
+    process.exit() /* fkn dunno why this doesnt work eh */
   }
 }

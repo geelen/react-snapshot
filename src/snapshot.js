@@ -22,6 +22,11 @@ export default (protocol, host, path) => {
       virtualConsole: jsdom.createVirtualConsole().sendTo(console),
       done: (err, window) => {
         if (err) reject(err)
+        //const check = () => {
+        //  setTimeout(check, 10)
+        //  console.log(process._getActiveHandles().length)
+        //}
+        //check()
         setTimeout(() => resolve(window), 1000)
       }
     })
