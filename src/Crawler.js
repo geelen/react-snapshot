@@ -56,9 +56,9 @@ export default class Crawler {
       const urlAttribute = tagAttributeMap[tagName]
       Array.from(document.querySelectorAll(`${tagName}[${urlAttribute}]`)).forEach(element => {
         if (element.getAttribute('target') === '_blank') return
-        const { protocol, host, path } = url.parse(element.getAttribute(urlAttribute))
-        if (protocol || host || path === null) return;
-        const relativePath = url.resolve(currentPath, path)
+        const href = url.parse(element.getAttribute(urlAttribute))
+        if (href.protocol || href.host || href.path === null) return;
+        const relativePath = url.resolve(currentPath, href.path)
         if (path.extname(relativePath) !== '.html' && path.extname(relativePath) !== '') return;
         if (this.processed[relativePath]) return;
         if (this.exclude.filter((regex) => regex.test(relativePath)).length > 0) return
