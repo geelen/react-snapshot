@@ -28,15 +28,15 @@ export default () => {
   server.start().then(() => {
     const crawler = new Crawler(`http://localhost:${server.port()}/`, snapshotDelay, options)
     return crawler.crawl(({ urlPath, html }) => {
-      if(!urlPath.startsWith(basename)) {
+      if (!urlPath.startsWith(basename)) {
         console.log(`❗ Refusing to crawl ${urlPath} because it is outside of the ${basename} sub-folder`)
         return
       }
       urlPath = urlPath.replace(basename, '/')
       let filename = urlPath
-      if(urlPath.endsWith('/')) {
+      if (urlPath.endsWith('/')) {
         filename = `${urlPath}index.html`
-      } else if(path.extname(urlPath) == '') {
+      } else if (path.extname(urlPath) == '') {
         filename = `${urlPath}/index.html`
       }
       console.log(`✏️   Saving ${urlPath} as ${filename}`)
