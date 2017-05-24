@@ -54,6 +54,6 @@ export default class Server {
   }
 
   stop() {
-    //this.instance.close()
+    this.instance.close()
   }
 }
