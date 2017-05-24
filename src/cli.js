@@ -26,7 +26,7 @@ export default () => {
 
   const server = new Server(buildDir, basename, 0, pkg.proxy)
   server.start().then(() => {
-    const crawler = new Crawler(`http://localhost:${server.port()}/`, snapshotDelay, options)
+    const crawler = new Crawler(`http://localhost:${server.port()}${basename}`, snapshotDelay, options)
     return crawler.crawl(({ urlPath, html }) => {
       if (!urlPath.startsWith(basename)) {
         console.log(`❗ Refusing to crawl ${urlPath} because it is outside of the ${basename} sub-folder`)
