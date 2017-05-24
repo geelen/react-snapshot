@@ -18,7 +18,7 @@ export default class Server {
     app.use(historyApiFallback({
       index: '/200.html',
       disableDotRule: true,
-      htmlAcceptHeaders: proxy ? ['text/html'] : ['text/html', '*/*'],
+      htmlAcceptHeaders: ['text/html'],
     }))
     app.use(publicPath, express.static(baseDir, { index: '200.html' }))
 
