@@ -21,6 +21,9 @@ export default class Server {
       htmlAcceptHeaders: ['text/html'],
     }))
     app.use(publicPath, express.static(baseDir, { index: '200.html' }))
+    app.use('/**', (req, res) => {
+      res.sendFile('200.html', {root: baseDir})
+    })
 
     if (proxy) {
       if (typeof proxy !== "string") throw new Error("Only string proxies are implemented currently.")
