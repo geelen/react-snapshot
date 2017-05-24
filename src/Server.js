@@ -7,14 +7,23 @@ export default class Server {
   constructor(baseDir, publicPath, port, proxy) {
     const app = express()
 
+    app.get('*', (req, res, next) => {
+      // This makes sure the sockets close down so that
+      // we can gracefully shutdown the server
+      res.set('Connection', 'close');
+      next()
+    })
+
     // Yes I just copied most of this from react-scripts ¯\_(ツ)_/¯
     app.use(historyApiFallback({
       index: '/200.html',
       disableDotRule: true,
-      htmlAcceptHeaders: proxy ? ['text/html'] : ['text/html', '*/*'],
+      htmlAcceptHeaders: ['text/html'],
     }))
     app.use(publicPath, express.static(baseDir, { index: '200.html' }))
+
     if (proxy) {
+      if (typeof proxy !== "string") throw new Error("Only string proxies are implemented currently.")
       app.use(httpProxyMiddleware({
         target: proxy,
         onProxyReq: proxyReq => {
@@ -40,9 +49,11 @@ export default class Server {
     })
   }
 
+  port() {
+    return this.instance.address().port
+  }
+
   stop() {
-    console.log("\nServer stopped.")
     this.instance.close()
-    process.exit() /* fkn dunno why this doesnt work eh */
   }
 }

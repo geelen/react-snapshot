@@ -1,21 +1,21 @@
 /* Loads a URL then starts looking for links.
  Emits a full page whenever a new link is found. */
 import url from 'url'
-import snapshot from './snapshot'
-import jsdom from 'jsdom'
 import path from 'path'
-
-const pkg = require(path.join(process.cwd(), 'package.json'));
-const paths = pkg.reactSnapshot ? pkg.reactSnapshot.paths : ['/']
+import jsdom from 'jsdom'
+import glob from 'glob-to-regexp'
+import snapshot from './snapshot'
 
 export default class Crawler {
-  constructor(baseUrl) {
+  constructor(baseUrl, snapshotDelay, options) {
     this.baseUrl = baseUrl
-    const { protocol, host, path } = url.parse(baseUrl)
+    const { protocol, host } = url.parse(baseUrl)
     this.protocol = protocol
     this.host = host
-    this.paths = paths
+    this.paths = [...options.include]
+    this.exclude = options.exclude.map((g) => glob(g, { extended: true, globstar: true}))
     this.processed = {}
+    this.snapshotDelay = snapshotDelay
   }
 
   crawl(handler) {
@@ -26,20 +26,22 @@ export default class Crawler {
   }
 
   snap() {
-    let path = this.paths.shift()
-    if (!path) return Promise.resolve()
-    if (this.processed[path]) {
+    let urlPath = this.paths.shift()
+    if (!urlPath) return Promise.resolve()
+    urlPath = url.resolve('/', urlPath) // Resolve removes trailing slashes
+    if (this.processed[urlPath]) {
       return this.snap()
     } else {
-      this.processed[path] = true
+      this.processed[urlPath] = true
     }
-    return snapshot(this.protocol, this.host, path).then(window => {
+    return snapshot(this.protocol, this.host, urlPath, this.snapshotDelay).then(window => {
       const html = jsdom.serializeDocument(window.document)
-      this.extractNewLinks(window, path)
-      this.handler({ path, html })
+      this.extractNewLinks(window, urlPath)
+      this.handler({ urlPath, html })
+      window.close() // Release resources used by jsdom
       return this.snap()
     }, err => {
-      console.log(err)
+      console.log(`🔥 ${err}`)
     })
   }
 
@@ -54,10 +56,13 @@ export default class Crawler {
       const urlAttribute = tagAttributeMap[tagName]
       Array.from(document.querySelectorAll(`${tagName}[${urlAttribute}]`)).forEach(element => {
         if (element.getAttribute('target') === '_blank') return
-        const { protocol, host, path } = url.parse(element.getAttribute(urlAttribute))
-        if (protocol || host || path === null) return;
-        const relativePath = url.resolve(currentPath, path)
-        if (!this.processed[relativePath]) this.paths.push(relativePath)
+        const href = url.parse(element.getAttribute(urlAttribute))
+        if (href.protocol || href.host || href.path === null) return;
+        const relativePath = url.resolve(currentPath, href.path)
+        if (path.extname(relativePath) !== '.html' && path.extname(relativePath) !== '') return;
+        if (this.processed[relativePath]) return;
+        if (this.exclude.filter((regex) => regex.test(relativePath)).length > 0) return
+        this.paths.push(relativePath)
       })
     })
   }
