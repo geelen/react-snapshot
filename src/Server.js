@@ -15,12 +15,14 @@ export default class Server {
     })
 
     // Yes I just copied most of this from react-scripts ¯\_(ツ)_/¯
-    app.use(historyApiFallback({
-      index: '/200.html',
-      disableDotRule: true,
-      htmlAcceptHeaders: ['text/html'],
-    }))
-    app.use(publicPath, express.static(baseDir, { index: '200.html' }))
+    app.use(publicPath,
+      historyApiFallback({
+        index: '/200.html',
+        disableDotRule: true,
+        htmlAcceptHeaders: ['text/html'],
+      }),
+      express.static(baseDir, { index: '200.html' })
+    )
 
     if (proxy) {
       if (typeof proxy !== "string") throw new Error("Only string proxies are implemented currently.")
