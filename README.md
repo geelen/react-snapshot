@@ -1,6 +1,6 @@
 # React Snapshot
 
-A zero-configuration static pre-renderer for React apps. Starting by targeting Create React App (because it's great)
+A zero-configuration static pre-renderer for React apps, built for Create React App (because it's great)
 
 ## The Premise
 

@@ -16,7 +16,7 @@ export const render = (rootComponent, domElement) => {
   }
 }
 
-export const snapshot = func => {
+const _snapshot = (func, repeat) => {
   const i = count++
   const existing = state.data[i]
   if (existing) {
@@ -25,10 +25,12 @@ export const snapshot = func => {
     return {
       then(resolve, reject) {
         if (typeof success !== 'undefined') resolve(success)
-        else if (reject && typeof failure !== 'undefined') reject(failure)
+        else if (!repeat && reject && typeof failure !== 'undefined') reject(failure)
+        if (repeat) func().then(resolve, reject)
       },
       catch(reject) {
-        if (typeof failure !== 'undefined') reject(success)
+        if (!repeat && typeof failure !== 'undefined') reject(success)
+        if (repeat) func().catch(reject)
       }
     }
   } else {
@@ -47,8 +49,10 @@ export const snapshot = func => {
     return promise
   }
 }
+export const snapshot = func => _snapshot(func, false)
+snapshot.repeat = func => _snapshot(func, true)
 
-export const Snapshot = (prop_defs) => {
+const _Snapshot = (prop_defs, repeat_on_client) => {
   const prop_names = Object.keys(prop_defs)
   if (typeof prop_defs !== "object" ||
     prop_names.some(k => typeof prop_defs[k] !== 'function')
@@ -63,8 +67,9 @@ export const Snapshot = (prop_defs) => {
       }
 
       componentWillMount() {
-        snapshot(() =>
-          Promise.all(prop_names.map(prop_name => prop_defs[prop_name](this.props)))
+        _snapshot(
+          () => Promise.all(prop_names.map(prop_name => prop_defs[prop_name](this.props))),
+          repeat_on_client
         ).then(responses => {
           const new_state = {}
           prop_names.forEach((prop_name, i) => new_state[prop_name] = responses[i])
@@ -89,3 +94,6 @@ export const Snapshot = (prop_defs) => {
     rendering: Component => hoc(Component, true)
   }
 }
+
+export const Snapshot = prop_defs => _Snapshot(prop_defs, false)
+Snapshot.repeat = prop_defs => _Snapshot(prop_defs, true)
