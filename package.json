@@ -7,8 +7,9 @@
     "react-snapshot": "./bin/react-snapshot.js"
   },
   "scripts": {
-    "build": "babel --out-dir lib src",
-    "build:watch": "npm run build -- --watch",
+    "babel": "babel --out-dir lib src",
+    "build": "NODE_ENV=production npm run babel",
+    "build:watch": "NODE_ENV=development npm run babel -- --watch",
     "prepublish": "rm -rf lib/* && npm run build"
   },
   "dependencies": {
