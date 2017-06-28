@@ -5,15 +5,14 @@ import Server from './Server'
 import Crawler from './Crawler'
 import Writer from './Writer'
 
-const snapshotDelay = 50
-
 export default () => {
   const pkg = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'package.json')))
   const basename = ((p) => p.endsWith('/') ? p : p + '/')(pkg.homepage ? url.parse(pkg.homepage).pathname : '')
 
   const options = Object.assign({
     include: [],
-    exclude: []
+    exclude: [],
+    snapshotDelay: 50
   }, pkg.reactSnapshot || {})
 
   options.exclude = options.exclude.map((p) => path.join(basename, p).replace(/\\/g, '/'))
@@ -26,7 +25,7 @@ export default () => {
 
   const server = new Server(buildDir, basename, 0, pkg.proxy)
   server.start().then(() => {
-    const crawler = new Crawler(`http://localhost:${server.port()}${basename}`, snapshotDelay, options)
+    const crawler = new Crawler(`http://localhost:${server.port()}${basename}`, options.snapshotDelay, options)
     return crawler.crawl(({ urlPath, html }) => {
       if (!urlPath.startsWith(basename)) {
         console.log(`❗ Refusing to crawl ${urlPath} because it is outside of the ${basename} sub-folder`)
