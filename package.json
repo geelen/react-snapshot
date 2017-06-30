@@ -3,6 +3,7 @@
   "version": "1.1.0",
   "description": "",
   "main": "lib/index.js",
+  "repository": "geelen/react-snapshot",
   "bin": {
     "react-snapshot": "./bin/react-snapshot.js"
   },
