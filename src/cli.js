@@ -8,6 +8,7 @@ import Writer from './Writer'
 export default () => {
   const pkg = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'package.json')))
   const basename = ((p) => p.endsWith('/') ? p : p + '/')(pkg.homepage ? url.parse(pkg.homepage).pathname : '')
+  const saveAsIndexHtml = process.argv.length > 2 && (process.argv[2] === '--save-as-index-html')
 
   const options = Object.assign({
     include: [],
@@ -36,7 +37,11 @@ export default () => {
       if (urlPath.endsWith('/')) {
         filename = `${urlPath}index.html`
       } else if (path.extname(urlPath) == '') {
-        filename = `${urlPath}.html`
+        if (saveAsIndexHtml) {
+          filename = `${urlPath}/index.html`
+        } else {
+          filename = `${urlPath}.html`
+        }
       }
       console.log(`✏️   Saving ${urlPath} as ${filename}`)
       writer.write(filename, html)
