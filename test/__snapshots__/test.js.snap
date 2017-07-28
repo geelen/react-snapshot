@@ -1,0 +1,272 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`react-snapshot cli should generate html files 1`] = `
+"/*
+!_index.html
+"
+`;
+
+exports[`react-snapshot cli should generate html files 2`] = `
+"<!doctype html>
+<head>
+  <meta charset=\\"utf-8\\" />
+  <title>Test</title>
+</head>
+<body>
+  <nav>
+    <a href=\\"/page1/\\">Page 1</a>
+    <a href=\\"/page2/\\">Page 2</a>
+    <a href=\\"/page1/nested1\\">Nested Page 1</a>
+    <a href=\\"/page1/nested2\\">Nested Page 2</a>
+    <a href=\\"htttp://external.com\\">External</a>
+    <a target=\\"blank\\" href=\\"/page1/\\">Blank</a>
+  </nav>
+  <main id=\\"main\\">
+  main text index
+  </main>
+  <script type=\\"text/javascript\\">
+    (function() {
+      const render = (pathname) => {
+        document.getElementById('main').innerHTML = 'main text ' + (() => {
+          switch(pathname) {
+            case '':
+            case '/': return 'index';
+            case '/page1/': return 'page1';
+            case '/page1/nested1': return 'page1/nested1';
+            case '/page1/nested2': return 'page1/nested2';
+            return 'unknown';
+          }
+        })();
+      }
+      render(window.location.pathname);
+    }());
+  </script>
+</body>
+</html>
+"
+`;
+
+exports[`react-snapshot cli should generate html files 3`] = `
+"<!doctype html>
+<head>
+  <meta charset=\\"utf-8\\" />
+  <title>Test</title>
+</head>
+<body>
+  <nav>
+    <a href=\\"/page1/\\">Page 1</a>
+    <a href=\\"/page2/\\">Page 2</a>
+    <a href=\\"/page1/nested1\\">Nested Page 1</a>
+    <a href=\\"/page1/nested2\\">Nested Page 2</a>
+    <a href=\\"htttp://external.com\\">External</a>
+    <a target=\\"blank\\" href=\\"/page1/\\">Blank</a>
+  </nav>
+  <main id=\\"main\\">
+  main text index
+  </main>
+  <script type=\\"text/javascript\\">
+    (function() {
+      const render = (pathname) => {
+        document.getElementById('main').innerHTML = 'main text ' + (() => {
+          switch(pathname) {
+            case '':
+            case '/': return 'index';
+            case '/page1/': return 'page1';
+            case '/page1/nested1': return 'page1/nested1';
+            case '/page1/nested2': return 'page1/nested2';
+            return 'unknown';
+          }
+        })();
+      }
+      render(window.location.pathname);
+    }());
+  </script>
+</body>
+</html>
+"
+`;
+
+exports[`react-snapshot cli should generate html files 4`] = `
+"<html><head>
+  <meta charset=\\"utf-8\\">
+  <title>Test</title>
+</head>
+<body>
+  <nav>
+    <a href=\\"/page1/\\">Page 1</a>
+    <a href=\\"/page2/\\">Page 2</a>
+    <a href=\\"/page1/nested1\\">Nested Page 1</a>
+    <a href=\\"/page1/nested2\\">Nested Page 2</a>
+    <a href=\\"htttp://external.com\\">External</a>
+    <a target=\\"blank\\" href=\\"/page1/\\">Blank</a>
+  </nav>
+  <main id=\\"main\\">main text index</main>
+  <script type=\\"text/javascript\\">
+    (function() {
+      const render = (pathname) => {
+        document.getElementById('main').innerHTML = 'main text ' + (() => {
+          switch(pathname) {
+            case '':
+            case '/': return 'index';
+            case '/page1/': return 'page1';
+            case '/page1/nested1': return 'page1/nested1';
+            case '/page1/nested2': return 'page1/nested2';
+            return 'unknown';
+          }
+        })();
+      }
+      render(window.location.pathname);
+    }());
+  </script>
+
+
+</body></html>"
+`;
+
+exports[`react-snapshot cli should generate html files 5`] = `
+"<html><head>
+  <meta charset=\\"utf-8\\">
+  <title>Test</title>
+</head>
+<body>
+  <nav>
+    <a href=\\"/page1/\\">Page 1</a>
+    <a href=\\"/page2/\\">Page 2</a>
+    <a href=\\"/page1/nested1\\">Nested Page 1</a>
+    <a href=\\"/page1/nested2\\">Nested Page 2</a>
+    <a href=\\"htttp://external.com\\">External</a>
+    <a target=\\"blank\\" href=\\"/page1/\\">Blank</a>
+  </nav>
+  <main id=\\"main\\">main text page1</main>
+  <script type=\\"text/javascript\\">
+    (function() {
+      const render = (pathname) => {
+        document.getElementById('main').innerHTML = 'main text ' + (() => {
+          switch(pathname) {
+            case '':
+            case '/': return 'index';
+            case '/page1/': return 'page1';
+            case '/page1/nested1': return 'page1/nested1';
+            case '/page1/nested2': return 'page1/nested2';
+            return 'unknown';
+          }
+        })();
+      }
+      render(window.location.pathname);
+    }());
+  </script>
+
+
+</body></html>"
+`;
+
+exports[`react-snapshot cli should generate html files 6`] = `
+"<html><head>
+  <meta charset=\\"utf-8\\">
+  <title>Test</title>
+</head>
+<body>
+  <nav>
+    <a href=\\"/page1/\\">Page 1</a>
+    <a href=\\"/page2/\\">Page 2</a>
+    <a href=\\"/page1/nested1\\">Nested Page 1</a>
+    <a href=\\"/page1/nested2\\">Nested Page 2</a>
+    <a href=\\"htttp://external.com\\">External</a>
+    <a target=\\"blank\\" href=\\"/page1/\\">Blank</a>
+  </nav>
+  <main id=\\"main\\">main text page1/nested1</main>
+  <script type=\\"text/javascript\\">
+    (function() {
+      const render = (pathname) => {
+        document.getElementById('main').innerHTML = 'main text ' + (() => {
+          switch(pathname) {
+            case '':
+            case '/': return 'index';
+            case '/page1/': return 'page1';
+            case '/page1/nested1': return 'page1/nested1';
+            case '/page1/nested2': return 'page1/nested2';
+            return 'unknown';
+          }
+        })();
+      }
+      render(window.location.pathname);
+    }());
+  </script>
+
+
+</body></html>"
+`;
+
+exports[`react-snapshot cli should generate html files 7`] = `
+"<html><head>
+  <meta charset=\\"utf-8\\">
+  <title>Test</title>
+</head>
+<body>
+  <nav>
+    <a href=\\"/page1/\\">Page 1</a>
+    <a href=\\"/page2/\\">Page 2</a>
+    <a href=\\"/page1/nested1\\">Nested Page 1</a>
+    <a href=\\"/page1/nested2\\">Nested Page 2</a>
+    <a href=\\"htttp://external.com\\">External</a>
+    <a target=\\"blank\\" href=\\"/page1/\\">Blank</a>
+  </nav>
+  <main id=\\"main\\">main text page1/nested2</main>
+  <script type=\\"text/javascript\\">
+    (function() {
+      const render = (pathname) => {
+        document.getElementById('main').innerHTML = 'main text ' + (() => {
+          switch(pathname) {
+            case '':
+            case '/': return 'index';
+            case '/page1/': return 'page1';
+            case '/page1/nested1': return 'page1/nested1';
+            case '/page1/nested2': return 'page1/nested2';
+            return 'unknown';
+          }
+        })();
+      }
+      render(window.location.pathname);
+    }());
+  </script>
+
+
+</body></html>"
+`;
+
+exports[`react-snapshot cli should generate html files 8`] = `
+"<html><head>
+  <meta charset=\\"utf-8\\">
+  <title>Test</title>
+</head>
+<body>
+  <nav>
+    <a href=\\"/page1/\\">Page 1</a>
+    <a href=\\"/page2/\\">Page 2</a>
+    <a href=\\"/page1/nested1\\">Nested Page 1</a>
+    <a href=\\"/page1/nested2\\">Nested Page 2</a>
+    <a href=\\"htttp://external.com\\">External</a>
+    <a target=\\"blank\\" href=\\"/page1/\\">Blank</a>
+  </nav>
+  <main id=\\"main\\">main text undefined</main>
+  <script type=\\"text/javascript\\">
+    (function() {
+      const render = (pathname) => {
+        document.getElementById('main').innerHTML = 'main text ' + (() => {
+          switch(pathname) {
+            case '':
+            case '/': return 'index';
+            case '/page1/': return 'page1';
+            case '/page1/nested1': return 'page1/nested1';
+            case '/page1/nested2': return 'page1/nested2';
+            return 'unknown';
+          }
+        })();
+      }
+      render(window.location.pathname);
+    }());
+  </script>
+
+
+</body></html>"
+`;
