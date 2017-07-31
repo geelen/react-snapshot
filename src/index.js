@@ -6,18 +6,19 @@ export const IS_REACT_SNAPSHOT = navigator.userAgent.match(/Node\.js/i) && windo
 const state = {
   requests: [],
   data: window.react_snapshot_state || {},
+  count: 0
 }
-let count = 0
 
 export const render = (rootComponent, domElement) => {
+  window.rootComponent = rootComponent
   ReactDOM.render(rootComponent, domElement)
   if (IS_REACT_SNAPSHOT) {
-    window.react_snapshot_render(domElement, state)
+    window.react_snapshot_render(domElement, state, rootComponent)
   }
 }
 
 const _snapshot = (func, repeat) => {
-  const i = count++
+  const i = state.count++
   const existing = state.data[i]
   if (existing) {
     const { success, failure } = existing

@@ -1,7 +1,11 @@
 /* Wraps a jsdom call and returns the full page */
 
 import jsdom from 'jsdom'
-import * as ReactMarkupChecksum from 'react-dom/lib/ReactMarkupChecksum'
+//import * as ReactMarkupChecksum from 'react-dom/lib/ReactMarkupChecksum'
+//import escapeTextContentForBrowser from 'react-dom/lib/escapeTextContentForBrowser'
+//import adler32 from 'react-dom/lib/adler32'
+//const TEXT_NODE = 3
+import ReactDOMServer from 'react-dom/server'
 
 export default (protocol, host, path, delay) => {
   return new Promise((resolve, reject) => {
@@ -24,8 +28,8 @@ export default (protocol, host, path, delay) => {
       virtualConsole: jsdom.createVirtualConsole().sendTo(console),
       created: (err, window) => {
         if (err) reject(err)
-        window.react_snapshot_render = (element, state) => {
-          render_called = { element, state }
+        window.react_snapshot_render = (element, state, rootComponent) => {
+          render_called = { element, state, rootComponent }
         }
       },
       done: (err, window) => {
@@ -33,7 +37,7 @@ export default (protocol, host, path, delay) => {
           return reject("'render' from react-snapshot was never called. Did you replace the call to ReactDOM.render()?")
         }
 
-        const { element, state } = render_called
+        const { element, state, rootComponent } = render_called
 
         const next = () => {
           const shift = state.requests.shift()
@@ -43,8 +47,29 @@ export default (protocol, host, path, delay) => {
         new Promise(res => setTimeout(res, delay))
           .then(next)
           .then(() => {
-            console.log(state.data)
-            element.outerHTML = ReactMarkupChecksum.addChecksumToMarkup(element.outerHTML)
+            // This approach is really difficult to get working reliably
+
+            //Array.from(element.querySelectorAll('*')).forEach(el => {
+            //  const instance_key = Object.keys(el).find(k => k.startsWith('__reactInternalInstance'))
+            //  if (instance_key) el.setAttribute('data-reactid', el[instance_key]._domID)
+            //  if (el.hasChildNodes()) {
+            //    for (let i = 0; i < el.childNodes.length; i++) {
+            //      const tn = el.childNodes[i]
+            //      if (tn.nodeType === TEXT_NODE) tn.data = escapeTextContentForBrowser(tn.textContent)
+            //    }
+            //  }
+            //})
+            //
+
+            //const markup = element.innerHTML
+            //console.log(adler32(markup))
+            //console.log(markup)
+            //element.innerHTML = ReactMarkupChecksum.addChecksumToMarkup(markup)
+
+            // This approach is much more reliable but is it too confusing??
+            state.count = 0
+            element.innerHTML = ReactDOMServer.renderToString(rootComponent)
+
             window.document.body.insertAdjacentHTML('afterBegin', `
               <script>window.react_snapshot_state = ${JSON.stringify(state.data)};</script>
             `)
