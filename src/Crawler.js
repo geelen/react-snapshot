@@ -35,6 +35,12 @@ export default class Crawler {
       this.processed[urlPath] = true
     }
     return snapshot(this.protocol, this.host, urlPath, this.snapshotDelay).then(window => {
+      if (window.snapshotState != null) {
+        const stateJSON = JSON.stringify(window.snapshotState)
+        const script = window.document.createElement('script')
+        script.innerHTML = `window.snapshotState = JSON.parse('${stateJSON}');`
+        window.document.head.appendChild(script)
+      }
       const html = jsdom.serializeDocument(window.document)
       this.extractNewLinks(window, urlPath)
       this.handler({ urlPath, html })
