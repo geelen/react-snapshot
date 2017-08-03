@@ -1,4 +1,4 @@
-# React Snapshot
+# 📸 React Snapshot
 
 A zero-configuration static pre-renderer for React apps. Starting by targeting Create React App (because it's great)
 
