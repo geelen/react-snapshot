@@ -1,0 +1,8 @@
+{
+  "reactSnapshot": {
+    "include": [],
+    "exclude": [
+      "/page2/"
+    ]
+  }
+}
