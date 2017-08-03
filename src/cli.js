@@ -23,7 +23,8 @@ export default () => {
   const writer = new Writer(buildDir)
   writer.move('index.html', '200.html')
 
-  const server = new Server(buildDir, basename, 0, pkg.proxy)
+  const proxy = process.env.REACT_SNAPSHOT_PROXY || pkg.proxy
+  const server = new Server(buildDir, basename, 0, proxy)
   server.start().then(() => {
     const crawler = new Crawler(`http://localhost:${server.port()}${basename}`, options.snapshotDelay, options)
     return crawler.crawl(({ urlPath, html }) => {

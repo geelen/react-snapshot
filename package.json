@@ -1,6 +1,6 @@
 {
   "name": "react-snapshot",
-  "version": "1.1.0",
+  "version": "2.0.0-1",
   "description": "",
   "main": "lib/index.js",
   "repository": "geelen/react-snapshot",
@@ -8,8 +8,9 @@
     "react-snapshot": "./bin/react-snapshot.js"
   },
   "scripts": {
-    "build": "babel --out-dir lib src",
-    "build:watch": "npm run build -- --watch",
+    "babel": "babel --out-dir lib src",
+    "build": "NODE_ENV=production npm run babel",
+    "build:watch": "NODE_ENV=development npm run babel -- --watch",
     "prepublish": "rm -rf lib/* && npm run build"
   },
   "dependencies": {
