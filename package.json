@@ -19,7 +19,7 @@
     "http-proxy-middleware": "^0.17.4",
     "jsdom": "^9.4.5",
     "mkdirp": "^0.5.1",
-    "react": "^15.3.0",
+    "react": "next",
     "react-dom": "^15.3.0"
   },
   "devDependencies": {
