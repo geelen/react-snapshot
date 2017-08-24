@@ -14,6 +14,7 @@ export default class Crawler {
     this.host = host
     this.paths = [...options.include]
     this.exclude = options.exclude.map((g) => glob(g, { extended: true, globstar: true}))
+    this.stripJS = options.stripJS
     this.processed = {}
     this.snapshotDelay = snapshotDelay
   }
@@ -35,6 +36,12 @@ export default class Crawler {
       this.processed[urlPath] = true
     }
     return snapshot(this.protocol, this.host, urlPath, this.snapshotDelay).then(window => {
+      if (this.stripJS) {
+        const strip = new RegExp(this.stripJS)
+        Array.from(window.document.querySelectorAll('script')).forEach(script => {
+          if (strip.exec(url.parse(script.src).path)) script.remove()
+        })
+      }
       const html = jsdom.serializeDocument(window.document)
       this.extractNewLinks(window, urlPath)
       this.handler({ urlPath, html })

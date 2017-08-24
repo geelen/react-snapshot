@@ -14,7 +14,7 @@ export default () => {
   const options = Object.assign({
     include: [],
     exclude: []
-  }, pkg.reactSnapshot || {})
+  }, pkg['react-snapshot'] || pkg.reactSnapshot || {})
 
   options.exclude = options.exclude.map((p) => path.join(basename, p).replace(/\\/g, '/'))
   options.include = options.include.map((p) => path.join(basename, p).replace(/\\/g, '/'))
