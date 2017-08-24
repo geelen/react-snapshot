@@ -13,7 +13,7 @@ export default () => {
     include: [],
     exclude: [],
     snapshotDelay: 50
-  }, pkg.reactSnapshot || {})
+  }, pkg['react-snapshot'] || pkg.reactSnapshot || {})
 
   options.exclude = options.exclude.map((p) => path.join(basename, p).replace(/\\/g, '/'))
   options.include = options.include.map((p) => path.join(basename, p).replace(/\\/g, '/'))
