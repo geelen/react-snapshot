@@ -1,4 +1,4 @@
-# React Snapshot
+# 📸 React Snapshot
 
 A zero-configuration static pre-renderer for React apps. Starting by targeting Create React App (because it's great)
 
@@ -47,12 +47,14 @@ You can specify additional paths as entry points for crawling that would otherwi
     "exclude": [
       "/signup",
       "/other-path/exclude-me/**"
-    ]
+    ],
+    "snapshotDelay": 300
   }
 ```
 
 Note that exclude can be passed a glob, but include cannot.
 
+The default snapshot delay is 50ms, and this can be changed to suit your app's requirements.
 
 ## The Demo
 
