@@ -72,6 +72,8 @@ It's pretty simple in principle:
 
 There's a few more steps to it, but not much.
 
+React-snapshot will crawl all links that it finds. You can create "site map" page, which will contain links to all pages.
+
 - We move `build/index.html` to `build/200.html` at the beginning, because it's a nice convention. Hosts like [surge.sh](https://surge.sh) understand this, serving `200.html` if no snapshot exists for a URL. If you use a different host I'm sure you can make it do the same.
 - `pushstate-server` is used to serve the `build` directory & serving `200.html` by default
 - The fake browser is JSDOM, set to execute any local scripts (same origin) in order to actually run your React code, but it'll ignore any third-party scripts (analytics or social widgets)
