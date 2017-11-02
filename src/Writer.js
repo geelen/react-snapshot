@@ -17,7 +17,9 @@ export default class Writer {
     (i.e. this is the first run post build) */
     const fromPath = path.resolve(this.baseDir, from);
     if (fs.existsSync(fromPath)) {
-      fs.renameSync(fromPath, path.resolve(this.outputDir, to))
+      /* This _must_ be in the BUILD directory, not the OUTPUT directory, since
+       * that's how our Server is configured. */
+      fs.renameSync(fromPath, path.resolve(this.baseDir, to))
     }
   }
 

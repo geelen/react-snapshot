@@ -19,7 +19,6 @@ export default () => {
     domain = 'localhost',
     outputDir = buildDir,
   } = program.optsObj
-  console.log({buildDir, domain, outputDir})
 
   const pkg = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'package.json')))
   const basename = ((p) => p.endsWith('/') ? p : p + '/')(pkg.homepage ? url.parse(pkg.homepage).pathname : '')
