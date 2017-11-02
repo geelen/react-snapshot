@@ -4,8 +4,12 @@ import path from 'path'
 import { sync as mkDirPSync } from 'mkdirp'
 
 export default class Writer {
-  constructor(baseDir) {
+  constructor(baseDir, outputDir) {
     this.baseDir = baseDir
+    if (outputDir !== baseDir) {
+      mkDirPSync(outputDir)
+    }
+    this.outputDir = outputDir
   }
 
   move(from, to) {
@@ -13,12 +17,12 @@ export default class Writer {
     (i.e. this is the first run post build) */
     const fromPath = path.resolve(this.baseDir, from);
     if (fs.existsSync(fromPath)) {
-      fs.renameSync(fromPath, path.resolve(this.baseDir, to))
+      fs.renameSync(fromPath, path.resolve(this.outputDir, to))
     }
   }
 
   write(filename, content) {
-    const newPath = path.join(this.baseDir, filename)
+    const newPath = path.join(this.outputDir, filename)
     const dirName = path.dirname(newPath)
     mkDirPSync(dirName)
     fs.writeFileSync(newPath, content)
