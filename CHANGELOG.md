@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.2.0] - 2017-11-02
+
+- Upgraded peer dependencies to include React 16 [#71](https://github.com/geelen/react-snapshot/pull/71)
+- Added a package.json option to strip certain JS from the bundle [#58](https://github.com/geelen/react-snapshot/pull/58)
+- Added `build-dir`, `output-dir`, and `domain` CLI options [#84](https://github.com/geelen/react-snapshot/pull/84)
+
 ## [1.1.0] - 2017-05-24
 
 ### Added
