@@ -42,6 +42,12 @@ export default class Crawler {
           if (strip.exec(url.parse(script.src).path)) script.remove()
         })
       }
+      if (Boolean(window.snapshotState)) {
+        const stateJSON = JSON.stringify(window.snapshotState)
+        const script = window.document.createElement('script')
+        script.innerHTML = `window.snapshotState = JSON.parse('${stateJSON}');`
+        window.document.head.appendChild(script)
+      }
       const html = jsdom.serializeDocument(window.document)
       this.extractNewLinks(window, urlPath)
       this.handler({ urlPath, html })
