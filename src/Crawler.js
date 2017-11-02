@@ -42,10 +42,10 @@ export default class Crawler {
           if (strip.exec(url.parse(script.src).path)) script.remove()
         })
       }
-      if (Boolean(window.snapshotState)) {
-        const stateJSON = JSON.stringify(window.snapshotState)
+      if (Boolean(window.react_snapshot_state)) {
+        const stateJSON = JSON.stringify(window.react_snapshot_state)
         const script = window.document.createElement('script')
-        script.innerHTML = `window.snapshotState = JSON.parse('${stateJSON}');`
+        script.innerHTML = `window.react_snapshot_state = JSON.parse('${stateJSON}');`
         window.document.head.appendChild(script)
       }
       const html = jsdom.serializeDocument(window.document)
