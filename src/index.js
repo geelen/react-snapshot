@@ -1,11 +1,13 @@
-import ReactDOM from 'react-dom';
-import ReactDOMServer from 'react-dom/server';
+import { render as renderToDom, hydrate } from 'react-dom';
 
 export const render = (rootComponent, domElement) => {
-  if (navigator.userAgent.match(/Node\.js/i) && window && window.reactSnapshotRender) {
-    domElement.innerHTML = ReactDOMServer.renderToString(rootComponent)
-    window.reactSnapshotRender()
+  if (navigator.userAgent === 'ReactSnapshot' && window && window.reactSnapshotRender) {
+    domElement.innerHTML = window.reactSnapshotRender(rootComponent);
   } else {
-    ReactDOM.render(rootComponent, domElement)
+    if (domElement.hasChildNodes()) {
+      hydrate(rootComponent, domElement)
+    } else {
+      renderToDom(rootComponent, domElement)
+    }
   }
 }
