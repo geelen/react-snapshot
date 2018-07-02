@@ -12,12 +12,14 @@ export default () => {
     .option('--build-dir <directory>', `Specify where the JS app lives. Defaults to 'build'`)
     .option('--domain <domain>', `The local domain to use for scraping. Defaults to 'localhost'`)
     .option('--output-dir <directory>', `Where to write the snapshots. Defaults to in-place (i.e. same as build-dir)`)
+    .option('--output-style <style>', `How should routes be outputted? Defaults to "{name}.html".`)
     .parse(process.argv)
 
   const {
     buildDir = 'build',
     domain = 'localhost',
     outputDir = buildDir,
+    outputStyle = '{name}.html'
   } = program.optsObj
 
   const pkg = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'package.json')))
@@ -52,7 +54,7 @@ export default () => {
       if (urlPath.endsWith('/')) {
         filename = `${urlPath}index.html`
       } else if (path.extname(urlPath) == '') {
-        filename = `${urlPath}.html`
+        filename = outputStyle.replace(/{name}/g, urlPath)
       }
       console.log(`✏️   Saving ${urlPath} as ${filename}`)
       writer.write(filename, html)
