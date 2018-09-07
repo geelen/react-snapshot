@@ -81,7 +81,7 @@ export default () => {
 
   }).then(() => {
     if (sitemap) {
-      console.log(`✅  Finished ${sitemapFilename}`);
+      console.log(`✅  Finished ${sitemapFilename}`)
       sitemapWriter.write(sitemapFilename, '</urlset>')
     }
     server.stop()
