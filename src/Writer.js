@@ -10,7 +10,7 @@ export default class Writer {
       mkDirPSync(outputDir)
     }
     this.outputDir = outputDir
-    this.writer = fs.writeFileSync;
+    this.writer = fs.writeFileSync
   }
 
   move(from, to) {
@@ -28,6 +28,6 @@ export default class Writer {
     const newPath = path.join(this.outputDir, filename)
     const dirName = path.dirname(newPath)
     mkDirPSync(dirName)
-    this.writer(newPath, content);
+    this.writer(newPath, content)
   }
 }

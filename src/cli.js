@@ -45,14 +45,14 @@ export default () => {
   writer.move('index.html', '200.html')
 
   let sitemapWriter = null
-  const sitemapFilename = 'sitemap.xml';
+  const sitemapFilename = 'sitemap.xml'
 
   if (sitemap) {
-    sitemapWriter = new Appender(buildDirPath, outputDirPath);
+    sitemapWriter = new Appender(buildDirPath, outputDirPath)
     sitemapWriter.write('sitemap.xml', "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
       "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\" \n" +
       "  xmlns:image=\"http://www.google.com/schemas/sitemap-image/1.1\" \n" +
-      "  xmlns:video=\"http://www.google.com/schemas/sitemap-video/1.1\">");
+      "  xmlns:video=\"http://www.google.com/schemas/sitemap-video/1.1\">")
   }
 
   const server = new Server(buildDirPath, basename, 0, pkg.proxy)
@@ -73,8 +73,8 @@ export default () => {
       console.log(`✏️   Saving ${urlPath} as ${filename}`)
 
       if (sitemap) {
-        console.log(`📝  Writing ${sitemapDomain}${urlPath} to ${sitemapFilename}`);
-        sitemapWriter.write(sitemapFilename, `<url><loc>${sitemapDomain}${urlPath}</loc></url>`);
+        console.log(`📝  Writing ${sitemapDomain}${urlPath} to ${sitemapFilename}`)
+        sitemapWriter.write(sitemapFilename, `<url><loc>${sitemapDomain}${urlPath}</loc></url>`)
       }
       writer.write(filename, html)
     })
