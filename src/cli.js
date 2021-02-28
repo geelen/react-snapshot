@@ -46,7 +46,7 @@ export default () => {
   const writer = new Writer(buildDirPath, outputDirPath)
   writer.move('index.html', '200.html')
 
-  const server = new Server(buildDirPath, basename, 0, pkg.proxy)
+  const server = new Server(buildDirPath, basename, port, pkg.proxy)
   server.start().then(() => {
     const crawler = new Crawler(`http://${domain_final}:${server.port()}${basename}`, options.snapshotDelay, options)
     return crawler.crawl(({ urlPath, html }) => {
