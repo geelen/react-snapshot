@@ -19,6 +19,13 @@ export default () => {
     domain = 'localhost',
     outputDir = buildDir,
   } = program.optsObj
+  
+  var port = 0, domain_final = domain
+  if(domain.split(':')[1]){
+    port = domain.split(':')[1].split('/')[0]
+    domain_final = domain.split(':')[0]
+  }
+  console.log("domain_final = ",domain_final,"port = ",port)
 
   const pkg = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'package.json')))
   const basename = ((p) => p.endsWith('/') ? p : p + '/')(pkg.homepage ? url.parse(pkg.homepage).pathname : '')
@@ -41,7 +48,7 @@ export default () => {
 
   const server = new Server(buildDirPath, basename, 0, pkg.proxy)
   server.start().then(() => {
-    const crawler = new Crawler(`http://${domain}:${server.port()}${basename}`, options.snapshotDelay, options)
+    const crawler = new Crawler(`http://${domain_final}:${server.port()}${basename}`, options.snapshotDelay, options)
     return crawler.crawl(({ urlPath, html }) => {
       if (!urlPath.startsWith(basename)) {
         console.log(`❗ Refusing to crawl ${urlPath} because it is outside of the ${basename} sub-folder`)
