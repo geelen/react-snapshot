@@ -1,5 +1,7 @@
 # 📸 React Snapshot
 
+⚠️⚠️⚠️ DEPRECATED: USE https://github.com/stereobooster/react-snap INSTEAD ⚠️⚠️
+
 A zero-configuration static pre-renderer for React apps. Starting by targeting Create React App (because it's great)
 
 ## The Premise
