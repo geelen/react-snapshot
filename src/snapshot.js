@@ -1,6 +1,10 @@
 /* Wraps a jsdom call and returns the full page */
 
 import jsdom from 'jsdom'
+import urlLib from 'url'
+
+const publicUrl = process.env.PUBLIC_URL
+const publicUrlHost = publicUrl && urlLib.parse(publicUrl).host;
 
 export default (protocol, host, path, delay) => {
   return new Promise((resolve, reject) => {
@@ -11,6 +15,10 @@ export default (protocol, host, path, delay) => {
       headers: { Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8" },
       resourceLoader(resource, callback) {
         if (resource.url.host === host) {
+          resource.defaultFetch(callback);
+        } else if (publicUrl && resource.url.host === publicUrlHost) {
+          const mappedLocaleResourceUrl = resource.url.format().replace(publicUrl, `${protocol}//${host}`);
+          resource.url = urlLib.parse(mappedLocaleResourceUrl);
           resource.defaultFetch(callback);
         } else {
           callback()
